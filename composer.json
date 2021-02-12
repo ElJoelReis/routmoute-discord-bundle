@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Routmoute\\Bundle\\DiscordBundle\\": "src/"
+            "Routmoute\\Bundle\\RoutmouteDiscordBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Routmoute\\Bundle\\DiscordBundle\\Tests\\": "tests/"
+            "Routmoute\\Bundle\\RoutmouteDiscordBundle\\Tests\\": "tests/"
         }
     },
     "extra": {

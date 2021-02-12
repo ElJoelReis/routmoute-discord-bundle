@@ -1,6 +1,6 @@
 services:
-    Routmoute\Bundle\DiscordBundle\Service\RoutmouteDiscordOAuthService:
-        class: Routmoute\Bundle\DiscordBundle\Service\RoutmouteDiscordOAuthService
+    Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordOAuthService:
+        class: Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordOAuthService
         autowire: true
         arguments:
             $client_id: '%routmoute_discord.client_id%'

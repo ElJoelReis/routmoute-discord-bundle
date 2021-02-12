@@ -1,6 +1,6 @@
 <?php
 
-namespace Routmoute\Bundle\DiscordBundle;
+namespace Routmoute\Bundle\RoutmouteDiscordBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Routmoute\Bundle\DiscordBundle\Service;
+namespace Routmoute\Bundle\RoutmouteDiscordBundle\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Csrf\CsrfToken;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Routmoute\Bundle\DiscordBundle\DependencyInjection;
+namespace Routmoute\Bundle\RoutmouteDiscordBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
