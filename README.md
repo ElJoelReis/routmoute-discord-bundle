@@ -31,7 +31,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```console
-$ composer require routmoute/discord-bundle
+$ composer require routmoute/routmoute-discord-bundle
 ```
 
 
@@ -70,7 +70,7 @@ Create Controller, for exemple `src/Controller/DiscordOAtuhController.php`
 
 namespace App\Controller;
 
-use Routmoute\Bundle\DiscordBundle\Service\RoutmouteDiscordOAuthService;
+use Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordOAuthService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
