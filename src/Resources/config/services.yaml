@@ -1,0 +1,9 @@
+services:
+    Routmoute\Bundle\DiscordBundle\Service\RoutmouteDiscordOAuthService:
+        class: Routmoute\Bundle\DiscordBundle\Service\RoutmouteDiscordOAuthService
+        autowire: true
+        arguments:
+            $client_id: '%routmoute_discord.client_id%'
+            $client_secret: '%routmoute_discord.client_secret%'
+            $redirect_path: '%routmoute_discord.redirect_path%'
+            $scope: '%routmoute_discord.scope%'
