@@ -17,15 +17,16 @@ class RoutmouteDiscordExtension extends Extension {
         $config = $this->processConfiguration($configuration, $configs);
         
         $scope = '';
-        foreach($config['scope'] as $value) {
+        foreach($config['oauth']['scope'] as $value) {
             if ($scope != '') {
                 $scope .= ' ';
             }
             $scope .= $value;
         }
 
-        $container->setParameter('routmoute_discord.client_id', $config['client_id']);
-        $container->setParameter('routmoute_discord.client_secret', $config['client_secret']);
+        $container->setParameter('routmoute_discord.client_id', $config['oauth']['client_id']);
+        $container->setParameter('routmoute_discord.client_secret', $config['oauth']['client_secret']);
         $container->setParameter('routmoute_discord.scope', $scope);
+        $container->setParameter('routmoute_discord.bot_token', $config['api']['bot_token']);
     }
 }
