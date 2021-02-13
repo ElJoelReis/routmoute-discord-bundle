@@ -26,7 +26,6 @@ class RoutmouteDiscordExtension extends Extension {
 
         $container->setParameter('routmoute_discord.client_id', $config['client_id']);
         $container->setParameter('routmoute_discord.client_secret', $config['client_secret']);
-        $container->setParameter('routmoute_discord.redirect_path', $config['redirect_path']);
         $container->setParameter('routmoute_discord.scope', $scope);
     }
 }

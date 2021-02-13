@@ -75,23 +75,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DiscordOAuthController extends AbstractController
 {
     /**
      * @Route("/connectToDiscord", name="routmoute_discord_redirect", methods="GET")
      */
-    public function redirectToDiscord(RoutmouteDiscordOAuthService $oAuthService): RedirectResponse
+    public function redirectToDiscord(RoutmouteDiscordOAuthService $oAuthService, UrlGeneratorInterface $urlGenerator): RedirectResponse
     {
-        return new RedirectResponse($oAuthService->getRedirectDiscordUrl());
+        $redirectUrl = $urlGenerator->generate('routmoute_discord_receiver', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        return new RedirectResponse($oAuthService->getRedirectDiscordUrl($redirectUrl));
     }
 
     /**
      * @Route("/receiveDiscord", name="routmoute_discord_receiver", methods="GET")
      */
-    public function receiveFromDiscordAuthorize(Request $request, RoutmouteDiscordOAuthService $oAuthService): RedirectResponse
+    public function receiveFromDiscordAuthorize(Request $request, RoutmouteDiscordOAuthService $oAuthService, UrlGeneratorInterface $urlGenerator): RedirectResponse
     {
-        $userData = $oAuthService->getUserData($request);
+        $redirectUrl = $urlGenerator->generate('routmoute_discord_receiver', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $userData = $oAuthService->getUserData($request, $redirectUrl);
 
         // TODO: Process userData and change path_to_redirect
 
