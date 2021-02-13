@@ -6,6 +6,14 @@ services:
             $client_secret: '%routmoute_discord.client_secret%'
             $scope: '%routmoute_discord.scope%'
 
+    routmoute-discord-bundle.apiservice:
+        class: Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordApiService
+        arguments:
+            $bot_token: '%routmoute_discord.bot_token%'
+
+    Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordApiService:
+        alias: routmoute-discord-bundle.apiservice
+
     Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordOAuthService:
         alias: routmoute-discord-bundle.oauthservice
         

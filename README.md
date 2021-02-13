@@ -16,12 +16,14 @@ Create configuration file `config/packages/routmoute_discord.yaml` and modify sc
 // config/packages/routmoute_discord.yaml
 
 routmoute_discord:
-    client_id: '%env(ROUTMOUTE_DISCORD_CLIENT_ID)%'
-    client_secret: '%env(ROUTMOUTE_DISCORD_CLIENT_SECRET)%'
-    redirect_path: routmoute_discord_receiver
-    scope:
+    oauth:
+        client_id: '%env(ROUTMOUTE_DISCORD_CLIENT_ID)%'
+        client_secret: '%env(ROUTMOUTE_DISCORD_CLIENT_SECRET)%'
+        scope:
             - identify
             - email
+    api:
+        bot_token: '%env(ROUTMOUTE_DISCORD_BOT_TOKEN)%'
 ```
 
 
@@ -45,6 +47,7 @@ Configuration
 - Copy `CLIENT ID` and `CLIENT SECRET` for next step
 - Go to `OAuth2` Tab
 - Add Redirect `https://yourDomain.domain/receiveDiscord`
+- Go to Bot Tab and copy `TOKEN` for next step
 
 
 ### Step 2: Create your env variables
@@ -53,11 +56,14 @@ Add this environments vars in your `.env` file.
 ```
 ROUTMOUTE_DISCORD_CLIENT_ID=YourClientId
 ROUTMOUTE_DISCORD_CLIENT_SECRET=YourClientSecret
+ROUTMOUTE_DISCORD_BOT_TOKEN=YourBotToken
 ```
 
 
 Usage (for Symfony 5)
 ---------------------
+
+## Discord OAuth
 
 ### Step 1: Create Controller in your App
 
@@ -116,6 +122,33 @@ for example, in twig template:
 ```
 
 
+## Discord API (Bot)
+
+Example usage in Controller:
+```php
+<?php
+namespace App\Controller;
+
+use Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordApiService;
+
+class MyController extends AbstractController
+{
+    public function index(RoutmouteDiscordApiService $discordAPI)
+    {
+        $discordId = 'theUserDiscordId';
+
+        $userInfos = $discordAPI->getUserFromDiscordId($discordId);
+
+        $userInfos["id"];
+        $userInfos["username"];
+        $userInfos["discriminator"];
+        $userInfos["avatar"];
+    }
+}
+```
+https://discord.com/developers/docs/resources/user
+
+
 Parameters
 ----------
 
@@ -129,11 +162,6 @@ _Required_
 
 The `CLIENT SECRET` provided by discord
 
-#### `redirect_path`
-_Required_
-
-Path of your receiver route (route to add in your Discord Application)
-
 #### `scope`
 _Required_
 
@@ -141,3 +169,8 @@ The Discord API scopes - https://discord.com/developers/docs/topics/oauth2#share
 - `identify` - discordId, avatar, username, discriminator
 - `email` - email
 - ...
+
+#### `bot_token`
+_Required_
+
+The Bot `TOKEN` provided by discord
