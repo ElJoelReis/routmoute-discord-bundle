@@ -1,6 +1,6 @@
 {
     "name": "routmoute/routmoute-discord-bundle",
-    "description": "This bundle is simple access to discord API for Symfony",
+    "description": "This bundle is simple access to discord API for Symfony 5",
     "type": "symfony-bundle",
     "license": "MIT",
     "keywords": ["symfony", "bundle", "discord", "authentication", "api", "rest", "oauth", "oauth2", "routmoute"],
