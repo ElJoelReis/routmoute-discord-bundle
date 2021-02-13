@@ -42,7 +42,7 @@ Configuration
 
 - Go to https://discord.com/developers/applications
 - Create a New Application
-- Copy `CLIENT ID` and `CLIENT SECRET` for Step 5
+- Copy `CLIENT ID` and `CLIENT SECRET` for next step
 - Go to `OAuth2` Tab
 - Add Redirect `https://yourDomain.domain/receiveDiscord`
 
