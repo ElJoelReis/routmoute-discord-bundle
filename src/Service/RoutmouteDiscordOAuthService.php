@@ -2,12 +2,12 @@
 
 namespace Routmoute\Bundle\RoutmouteDiscordBundle\Service;
 
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class RoutmouteDiscordOAuthService
 {
@@ -18,17 +18,21 @@ class RoutmouteDiscordOAuthService
     private $clientId;
     private $clientSecret;
     private $scope;
+    private $httpClient;
+    private $csrfTokenManager;
     
-    public function __construct(string $client_id, string $client_secret, string $scope)
+    public function __construct(string $client_id, string $client_secret, string $scope, HttpClientInterface $httpClient, CsrfTokenManagerInterface $csrfTokenManager)
     {
         $this->clientId = $client_id;
         $this->clientSecret = $client_secret;
         $this->scope = $scope;
+        $this->httpClient = $httpClient;
+        $this->csrfTokenManager = $csrfTokenManager;
     }
 
     public function getRedirectDiscordUrl(string $redirectUrl): string
     {
-        $csrfToken = (new CsrfTokenManager())->getToken('routmoute_discord_auth')->getValue();
+        $csrfToken = $this->csrfTokenManager->getToken('routmoute_discord_auth')->getValue();
 
         $queryParams = http_build_query([
             'client_id' => $this->clientId,
@@ -45,7 +49,7 @@ class RoutmouteDiscordOAuthService
     {
         $state = $request->get('state');
 
-        if ($state && (new CsrfTokenManager())->isTokenValid(new CsrfToken('routmoute_discord_auth', $state)))
+        if ($state && $this->csrfTokenManager->isTokenValid(new CsrfToken('routmoute_discord_auth', $state)))
         {
             $code = $request->get('code');
             if ($code)
@@ -59,7 +63,7 @@ class RoutmouteDiscordOAuthService
     
     private function getAccessTokenFromCode(string $code, string $redirectUrl): string
     {
-        $data = (new HttpClient())->create()->request('POST', self::DISCORD_TOKEN_ENDPOINT, [
+        $data = $this->httpClient->request('POST', self::DISCORD_TOKEN_ENDPOINT, [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/x-www-form-urlencoded'
@@ -83,7 +87,7 @@ class RoutmouteDiscordOAuthService
 
     private function getUserDataFromAccessToken(string $accessToken): array
     {
-        $userData = (new HttpClient())->create()->request('GET', self::DISCORD_USER_DATA_ENDPONT, [
+        $userData = $this->httpClient->request('GET', self::DISCORD_USER_DATA_ENDPONT, [
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => "Bearer {$accessToken}"

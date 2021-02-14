@@ -1,6 +1,7 @@
 services:
     routmoute-discord-bundle.oauthservice:
         class: Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordOAuthService
+        autowire: true
         arguments:
             $client_id: '%routmoute_discord.client_id%'
             $client_secret: '%routmoute_discord.client_secret%'
@@ -8,6 +9,7 @@ services:
 
     routmoute-discord-bundle.apiservice:
         class: Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordApiService
+        autowire: true
         arguments:
             $bot_token: '%routmoute_discord.bot_token%'
 
@@ -16,4 +18,3 @@ services:
 
     Routmoute\Bundle\RoutmouteDiscordBundle\Service\RoutmouteDiscordOAuthService:
         alias: routmoute-discord-bundle.oauthservice
-        
