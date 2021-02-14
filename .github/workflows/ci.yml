@@ -1,0 +1,50 @@
+name: ci
+
+on: push
+
+jobs:
+  composer-validate:
+    name: Validate composer.json
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+
+      - name: Validate
+        run: composer validate --no-check-lock --strict
+
+  tests:
+    name: phpUnit test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
+
+    steps:
+      - name: Set PHP Version
+        run: sudo update-alternatives --set php /usr/bin/php${{ matrix.php-versions }}
+
+      - name: Get PHP Version
+        run: |
+          ver=$(php -v | grep -oP '(?<=PHP )\d.\d')
+          echo "::set-output name=version::$ver"
+        id: php-ver
+
+      - name: Using PHP Version from matrix
+        run: |
+          echo "Runner is not using PHP Version defined in the php-versions matrix."
+          php -v
+          exit 1
+        if: steps.php-ver.outputs.version != matrix.php-versions
+
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-progress
+
+      - name: Unit Tests
+        run: vendor/bin/simple-phpunit -c $GITHUB_WORKSPACE/phpunit.xml.dist --testsuite all
+        if: always()
