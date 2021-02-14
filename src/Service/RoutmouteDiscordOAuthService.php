@@ -11,9 +11,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class RoutmouteDiscordOAuthService
 {
-    private const DISCORD_AUTHORIZE_ENDPOINT = 'https://discord.com/api/oauth2/authorize';
-    private const DISCORD_TOKEN_ENDPOINT = 'https://discord.com/api/oauth2/token';
-    private const DISCORD_USER_DATA_ENDPONT = 'https://discord.com/api/users/@me';
+    private const DISCORD_API = 'https://discord.com/api';
     
     private $clientId;
     private $clientSecret;
@@ -42,7 +40,7 @@ class RoutmouteDiscordOAuthService
             'state' => $csrfToken
         ]);
 
-        return self::DISCORD_AUTHORIZE_ENDPOINT . '?' . $queryParams;
+        return self::DISCORD_API . '/oauth2/authorize?' . $queryParams;
     }
 
     public function getUserData(Request $request, string $redirectUrl): array
@@ -63,7 +61,7 @@ class RoutmouteDiscordOAuthService
     
     private function getAccessTokenFromCode(string $code, string $redirectUrl): string
     {
-        $data = $this->httpClient->request('POST', self::DISCORD_TOKEN_ENDPOINT, [
+        $data = $this->httpClient->request('POST', self::DISCORD_API . '/oauth2/token', [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/x-www-form-urlencoded'
@@ -87,7 +85,7 @@ class RoutmouteDiscordOAuthService
 
     private function getUserDataFromAccessToken(string $accessToken): array
     {
-        $userData = $this->httpClient->request('GET', self::DISCORD_USER_DATA_ENDPONT, [
+        $userData = $this->httpClient->request('GET', self::DISCORD_API . "/users/@me", [
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => "Bearer {$accessToken}"

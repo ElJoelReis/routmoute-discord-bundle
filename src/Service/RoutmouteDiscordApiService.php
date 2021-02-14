@@ -7,8 +7,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class RoutmouteDiscordApiService
 {
-    private const DISCORD_USER_DATA_ENDPONT = 'https://discord.com/api/users';
-    private const DISCORD_GUILD_ENDPOINT = 'https://discord.com/api/guilds';
+    private const DISCORD_API = 'https://discord.com/api';
 
     private $botToken;
     private $httpClient;
@@ -21,7 +20,7 @@ class RoutmouteDiscordApiService
 
     public function getUserFromDiscordId(string $discordId): array
     {
-        $apiResponse = $this->sendToDiscordApi('GET', self::DISCORD_USER_DATA_ENDPONT . '/' . $discordId);
+        $apiResponse = $this->sendToDiscordApi('GET', self::DISCORD_API . '/users/' . $discordId);
 
         $statusCode = $apiResponse->getStatusCode();
         if ($statusCode != 200)
@@ -37,7 +36,7 @@ class RoutmouteDiscordApiService
 
     public function getUserFromGuild(string $guildId, string $discordId)
     {
-        return $this->sendToDiscordApi('GET', self::DISCORD_GUILD_ENDPOINT . '/' . $guildId . '/members/' . $discordId)->toArray();
+        return $this->sendToDiscordApi('GET', self::DISCORD_API . '/guilds/' . $guildId . '/members/' . $discordId)->toArray();
     }
 
     private function sendToDiscordApi(string $requestType, string $endPoint)
