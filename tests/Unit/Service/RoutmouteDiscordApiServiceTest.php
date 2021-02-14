@@ -13,14 +13,6 @@ class RoutmouteDiscordApiServiceTest extends TestCase
     private $discordId;
     private $guildId;
 
-    public function registerBundles()
-    {
-        return [
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Routmoute\Bundle\RoutmouteDiscordBundle\RoutmouteDiscordBundle(),
-        ];
-    }
-
     public function testGetUserFromDiscordId()
     {
         $this->botToken = $this->generateRandomString();
