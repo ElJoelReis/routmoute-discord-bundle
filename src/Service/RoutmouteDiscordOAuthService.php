@@ -2,11 +2,11 @@
 
 namespace Routmoute\Bundle\RoutmouteDiscordBundle\Service;
 
+use Routmoute\Bundle\RoutmouteDiscordBundle\Exception\DiscordAccessFailedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class RoutmouteDiscordOAuthService
@@ -74,13 +74,13 @@ class RoutmouteDiscordOAuthService
                 'redirect_uri' => $redirectUrl,
                 'scope' => $this->scope,
             ]
-        ])->toArray();
+        ]);
 
-        if (!$data['access_token']) {
-            throw new ServiceUnavailableHttpException(null, 'Discord access failed.');
+        if ($data->getStatusCode() != 200) {
+            throw new DiscordAccessFailedException();
         }
 
-        return $data['access_token'];
+        return $data->toArray()['access_token'];
     }
 
     private function getUserDataFromAccessToken(string $accessToken): array
@@ -90,13 +90,17 @@ class RoutmouteDiscordOAuthService
                 'Accept' => 'application/json',
                 'Authorization' => "Bearer {$accessToken}"
             ]
-        ])->toArray();
+        ]);
 
-        if (!$userData['id'])
+        $statusCode = $userData->getStatusCode();
+        if ($statusCode != 200)
         {
-            throw new ServiceUnavailableHttpException(null, 'Discord user unattainable.');
+            if ($statusCode == 404) {
+                throw new \Exception('Discord user unattainable');
+            }
+            throw new DiscordAccessFailedException();
         }
 
-        return $userData;
+        return $userData->toArray();
     }
 }

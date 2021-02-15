@@ -2,7 +2,7 @@
 
 namespace Routmoute\Bundle\RoutmouteDiscordBundle\Service;
 
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Routmoute\Bundle\RoutmouteDiscordBundle\Exception\DiscordAccessFailedException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class RoutmouteDiscordApiService
@@ -28,7 +28,7 @@ class RoutmouteDiscordApiService
             if ($statusCode == 404) {
                 throw new \Exception('User not exist', 404);
             }
-            throw new ServiceUnavailableHttpException(null, 'Discord access failed.');
+            throw new DiscordAccessFailedException();
         }
 
         return $apiResponse->toArray();
@@ -36,7 +36,18 @@ class RoutmouteDiscordApiService
 
     public function getUserFromGuild(string $guildId, string $discordId)
     {
-        return $this->sendToDiscordApi('GET', self::DISCORD_API . '/guilds/' . $guildId . '/members/' . $discordId)->toArray();
+        $apiResponse = $this->sendToDiscordApi('GET', self::DISCORD_API . '/guilds/' . $guildId . '/members/' . $discordId);
+
+        $statusCode = $apiResponse->getStatusCode();
+        if ($statusCode != 200)
+        {
+            if ($statusCode == 404) {
+                throw new \Exception('User or guild not exist', 404);
+            }
+            throw new DiscordAccessFailedException();
+        }
+        
+        return $apiResponse->toArray();
     }
 
     private function sendToDiscordApi(string $requestType, string $endPoint)
