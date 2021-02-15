@@ -4,6 +4,7 @@ namespace Routmoute\Bundle\RoutmouteDiscordBundle\Service;
 
 use Routmoute\Bundle\RoutmouteDiscordBundle\Exception\DiscordAccessFailedException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class RoutmouteDiscordApiService
 {
@@ -34,7 +35,7 @@ class RoutmouteDiscordApiService
         return $apiResponse->toArray();
     }
 
-    public function getUserFromGuild(string $guildId, string $discordId)
+    public function getUserFromGuild(string $guildId, string $discordId): array
     {
         $apiResponse = $this->sendToDiscordApi('GET', self::DISCORD_API . '/guilds/' . $guildId . '/members/' . $discordId);
 
@@ -50,7 +51,7 @@ class RoutmouteDiscordApiService
         return $apiResponse->toArray();
     }
 
-    private function sendToDiscordApi(string $requestType, string $endPoint)
+    private function sendToDiscordApi(string $requestType, string $endPoint): ResponseInterface
     {
         return $this->httpClient->request($requestType, $endPoint, [
             'headers' => [
