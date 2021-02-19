@@ -51,6 +51,20 @@ class RoutmouteDiscordApiService
         return $apiResponse->toArray();
     }
 
+    public function getAllUsersFromGuild(string $guildId): array
+    {
+        $apiResponse = $this->sendToDiscordApi('GET', self::DISCORD_API . '/guilds/' . $guildId . '/members');
+        $statusCode = $apiResponse->getStatusCode();
+        if ($statusCode != 200)
+        {
+            if ($statusCode == 404) {
+                throw new \Exception('Guild not exist', 404);
+            }
+            throw new DiscordAccessFailedException();
+        }
+        return $apiResponse->toArray();
+    }
+
     private function sendToDiscordApi(string $requestType, string $endPoint): ResponseInterface
     {
         return $this->httpClient->request($requestType, $endPoint, [
