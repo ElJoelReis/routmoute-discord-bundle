@@ -51,9 +51,9 @@ class RoutmouteDiscordApiService
         return $apiResponse->toArray();
     }
 
-    public function getAllUsersFromGuild(string $guildId): array
+    public function getAllUsersFromGuild(string $guildId, int $limit = 1, int $after = 0): array
     {
-        $apiResponse = $this->sendToDiscordApi('GET', self::DISCORD_API . '/guilds/' . $guildId . '/members');
+        $apiResponse = $this->sendToDiscordApi('GET', self::DISCORD_API . '/guilds/' . $guildId . '/members?limit=' . $limit . '&after=' . $after);
         $statusCode = $apiResponse->getStatusCode();
         if ($statusCode != 200)
         {
