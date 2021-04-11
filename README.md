@@ -60,10 +60,10 @@ ROUTMOUTE_DISCORD_BOT_TOKEN=YourBotToken
 
 #### Step 1: Create Controller in your App
 
-Create Controller, for exemple `src/Controller/DiscordOAtuhController.php`
+Create Controller, for exemple `src/Controller/DiscordOAuthController.php`
 
 ```php
-// src/Controller/DiscordOAtuhController.php
+// src/Controller/DiscordOAuthController.php
 
 <?php
 
