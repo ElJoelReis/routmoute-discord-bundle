@@ -74,7 +74,7 @@ class RoutmouteDiscordApiService
      * @param string|null $after Message Id
      * @return array of messages
      */
-    public function getChannelMessages(string $channelId, int $limit = 50, ?string $around, ?string $before, ?string $after): array
+    public function getChannelMessages(string $channelId, int $limit = 50, ?string $around = null, ?string $before = null, ?string $after = null): array
     {
         $addOptions = "?limit=" . $limit;
         if ($around) $addOptions += "&around=" . $around;
