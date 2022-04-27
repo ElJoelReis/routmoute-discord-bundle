@@ -4,7 +4,7 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "keywords": ["symfony", "bundle", "discord", "authentication", "api", "rest", "oauth", "oauth2", "routmoute"],
-    "homepage": "https://github.com/routmoute/RoutmouteDiscordBundle",
+    "homepage": "https://github.com/routmoute/routmoute-discord-bundle",
     "require": {
         "php": ">=7.2.5",
         "symfony/http-client": "^4.4|^5.2",
