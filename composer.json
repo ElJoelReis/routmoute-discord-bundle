@@ -1,19 +1,19 @@
 {
-    "name": "eljoelreis/routmoute-discord-bundle",
-    "description": "This bundle is simple access to discord OAuth & API for Symfony 6",
+    "name": "routmoute/routmoute-discord-bundle",
+    "description": "This bundle is simple access to discord OAuth & API for Symfony 5",
     "type": "symfony-bundle",
     "license": "MIT",
     "keywords": ["symfony", "bundle", "discord", "authentication", "api", "rest", "oauth", "oauth2", "routmoute"],
-    "homepage": "https://github.com/eljoelreis/routmoute-discord-bundle",
+    "homepage": "https://github.com/routmoute/routmoute-discord-bundle",
     "require": {
-        "php": ">=8.0.2",
-        "symfony/http-client": "^6.0",
-        "symfony/yaml": "^6.0",
-        "symfony/framework-bundle": "^6.0",
-        "symfony/security-csrf": "^6.0"
+        "php": ">=7.2.5",
+        "symfony/http-client": "^4.4|^5.2",
+        "symfony/yaml": "^4.4|^5.2",
+        "symfony/framework-bundle": "^4.4|^5.2",
+        "symfony/security-csrf": "^4.4|^5.2"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^6.0"
+        "symfony/phpunit-bridge": "^4.4|^5.2"
     },
     "autoload": {
         "psr-4": {
